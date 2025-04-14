@@ -9,8 +9,8 @@ SET(CMAKE_SYSTEM_PROCESSOR      arm)
 # Specify the cross compiler executables
 # Typically these would be installed in a home directory or somewhere
 # in /opt.  However in this example the system compiler is used.
-SET(CMAKE_C_COMPILER            "/usr/bin/gcc")
-SET(CMAKE_CXX_COMPILER          "/usr/bin/g++")
+SET(CMAKE_C_COMPILER            "/usr/arm-buildroot-linux-gnueabihf")
+SET(CMAKE_CXX_COMPILER          "/usr/arm-buildroot-linux-gnueabihf")
 
 # Configure the find commands
 SET(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM   NEVER)
