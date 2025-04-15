@@ -25,13 +25,6 @@ ELSE()
     SET(CMAKE_CXX_COMPILER "/usr/bin/g++")
 ENDIF()
 
-
-# Override for EDS tool (force using host's x86 toolchain)
-if(NOT TARGET_EDS_TOOL)
-    SET(CMAKE_C_COMPILER            "/usr/bin/gcc")
-    SET(CMAKE_CXX_COMPILER          "/usr/bin/g++")
-endif()
-
 # Configure the find commands
 SET(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM   NEVER)
 SET(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY   NEVER)
