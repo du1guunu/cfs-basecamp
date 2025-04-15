@@ -12,19 +12,6 @@ SET(CMAKE_SYSTEM_PROCESSOR      arm)
 # SET(CMAKE_C_COMPILER            "/home/dulguun/cfs/buildroot/output/host/bin/arm-buildroot-linux-gnueabihf-gcc")
 # SET(CMAKE_CXX_COMPILER          "/home/dulguun/cfs/buildroot/output/host/bin/arm-buildroot-linux-gnueabihf-g++")
 
-
-# Check if we are cross-compiling for the ARM target
-IF(CMAKE_SYSTEM_PROCESSOR MATCHES "arm")
-    # Use the ARM cross-compilation toolchain
-    SET(CMAKE_C_COMPILER "/home/dulguun/cfs/buildroot/output/host/bin/arm-buildroot-linux-gnueabihf-gcc")
-    SET(CMAKE_CXX_COMPILER "/home/dulguun/cfs/buildroot/output/host/bin/arm-buildroot-linux-gnueabihf-g++")
-ELSE()
-    # Use the host compiler for Lua and other host-specific code
-    FIND_PACKAGE(Lua REQUIRED)
-    SET(CMAKE_C_COMPILER "/usr/bin/gcc")
-    SET(CMAKE_CXX_COMPILER "/usr/bin/g++")
-ENDIF()
-
 # Configure the find commands
 SET(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM   NEVER)
 SET(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY   NEVER)
