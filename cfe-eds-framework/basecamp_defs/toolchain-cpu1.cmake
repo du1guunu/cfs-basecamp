@@ -9,8 +9,22 @@ SET(CMAKE_SYSTEM_PROCESSOR      arm)
 # Specify the cross compiler executables
 # Typically these would be installed in a home directory or somewhere
 # in /opt.  However in this example the system compiler is used.
-SET(CMAKE_C_COMPILER            "/home/dulguun/cfs/buildroot/output/host/bin/arm-buildroot-linux-gnueabihf-gcc")
-SET(CMAKE_CXX_COMPILER          "/home/dulguun/cfs/buildroot/output/host/bin/arm-buildroot-linux-gnueabihf-g++")
+# SET(CMAKE_C_COMPILER            "/home/dulguun/cfs/buildroot/output/host/bin/arm-buildroot-linux-gnueabihf-gcc")
+# SET(CMAKE_CXX_COMPILER          "/home/dulguun/cfs/buildroot/output/host/bin/arm-buildroot-linux-gnueabihf-g++")
+
+
+# Check if we are cross-compiling for the ARM target
+IF(CMAKE_SYSTEM_PROCESSOR MATCHES "arm")
+    # Use the ARM cross-compilation toolchain
+    SET(CMAKE_C_COMPILER "/home/dulguun/cfs/buildroot/output/host/bin/arm-buildroot-linux-gnueabihf-gcc")
+    SET(CMAKE_CXX_COMPILER "/home/dulguun/cfs/buildroot/output/host/bin/arm-buildroot-linux-gnueabihf-g++")
+ELSE()
+    # Use the host compiler for Lua and other host-specific code
+    FIND_PACKAGE(Lua REQUIRED)
+    SET(CMAKE_C_COMPILER "/usr/bin/gcc")
+    SET(CMAKE_CXX_COMPILER "/usr/bin/g++")
+ENDIF()
+
 
 # Override for EDS tool (force using host's x86 toolchain)
 if(NOT TARGET_EDS_TOOL)
