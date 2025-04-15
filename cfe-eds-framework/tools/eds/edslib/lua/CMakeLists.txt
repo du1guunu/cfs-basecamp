@@ -24,10 +24,18 @@ project(EDSLIB_LUABINDINGS C)
 # This library depends on a Lua library on the system
 if(NOT LUALIB_FOUND)
 
-  # Manually set the Lua include and library directories if they are not found
-  set(LUALIB_INCLUDE_DIRS "/home/dulguun/cfs/buildroot/output/host/include")
-  set(LUALIB_LIBRARIES "/home/dulguun/cfs/buildroot/output/host/lib")
-  message(STATUS "Using Lua from host: ${LUALIB_INCLUDE_DIRS}, ${LUALIB_LIBRARIES}")
+  # For cross-compilation or CFS build, explicitly set Lua paths for ARM
+  if(CMAKE_CROSSCOMPILING OR IS_CFS_ARCH_BUILD)
+    # Specify the Lua include directory from Buildroot's host environment (for cross-compiling)
+    set(LUALIB_INCLUDE_DIRS "/home/dulguun/cfs/buildroot/output/host/include")
+    
+    # Specify the Lua library from Buildroot's host environment (for cross-compiling)
+    set(LUALIB_LIBRARIES "/home/dulguun/cfs/buildroot/output/host/lib/liblua.a")  # Adjust if necessary
+  else()
+    # For native builds (non-cross-compilation), find Lua using system packages
+    set(EDSLIB_LUA_SEARCH_VERSION lua-5.3 lua5.3 lua-5.2 lua5.2 lua-5.1 lua5.1 lua>=5.1)
+    find_edslib_dependency(LUALIB lua.h ${EDSLIB_LUA_SEARCH_VERSION})
+  endif()
 
   include_directories(${LUALIB_INCLUDE_DIRS})
   
@@ -43,32 +51,20 @@ if(NOT LUALIB_FOUND)
   # In any sort of cross-compile or CFS build, then the user needs to
   # explicitly do something to enable Lua bindings.
 
-  if (NOT DEFINED EDSLIB_LUA_SEARCH_VERSION AND
-      NOT CMAKE_CROSSCOMPILING AND
-      NOT IS_CFS_ARCH_BUILD)
-    set(EDSLIB_LUA_SEARCH_VERSION lua-5.3 lua5.3 lua-5.2 lua5.2 lua-5.1 lua5.1 lua>=5.1)
-  endif()
-
-  if (EDSLIB_LUA_SEARCH_VERSION)
-    find_edslib_dependency(LUALIB lua.h ${EDSLIB_LUA_SEARCH_VERSION})
-  endif(EDSLIB_LUA_SEARCH_VERSION)
-
 endif(NOT LUALIB_FOUND)
 
 
-# If not found then this module cannot be built, however
-# this is an optional feature therefore not a fatal error.
-if (NOT LUALIB_FOUND)
-    message("    Lua support not configured, skipping EdsLib Lua bindings")
-else (NOT LUALIB_FOUND)
+# If Lua is found, configure Lua bindings
+if (LUALIB_FOUND)
     include_directories(${EDSLIB_FSW_SOURCE_DIR}/inc)
-    include_directories(${LUALIB_INCLUDE_DIRS})
+    include_directories(${LUALIB_INCLUDE_DIRS})  # Use the cross-compiled Lua include path
     include_directories(inc)
 
     add_library(edslib_lua STATIC
         src/edslib_lua_objects.c
     )
-    target_link_libraries(edslib_lua ${LUALIB_LIBRARIES})
-
-endif(NOT LUALIB_FOUND)
+    target_link_libraries(edslib_lua ${LUALIB_LIBRARIES})  # Link the cross-compiled Lua library
+else()
+    message("    Lua support not configured, skipping EdsLib Lua bindings")
+endif()
 
