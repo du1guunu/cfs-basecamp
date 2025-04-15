@@ -46,6 +46,13 @@ if(NOT LUALIB_FOUND)
     find_edslib_dependency(LUALIB lua.h ${EDSLIB_LUA_SEARCH_VERSION})
   endif(EDSLIB_LUA_SEARCH_VERSION)
 
+  # If Lua not found in the system, set manually for cross-compiling
+  if (NOT LUALIB_FOUND)
+    set(LUALIB_INCLUDE_DIRS "/home/dulguun/cfs/buildroot/output/host/include")
+    set(LUALIB_LIBRARIES "/home/dulguun/cfs/buildroot/output/host/lib")
+    message(STATUS "Using Lua from host: ${LUALIB_INCLUDE_DIRS}, ${LUALIB_LIBRARIES}")
+  endif()
+
 endif(NOT LUALIB_FOUND)
 
 
