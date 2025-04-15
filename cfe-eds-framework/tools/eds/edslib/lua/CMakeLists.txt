@@ -30,7 +30,7 @@ if(NOT LUALIB_FOUND)
     set(LUALIB_INCLUDE_DIRS "/home/dulguun/cfs/buildroot/output/host/include")
     
     # Specify the Lua library from Buildroot's host environment (for cross-compiling)
-    set(LUALIB_LIBRARIES "/home/dulguun/cfs/buildroot/output/host/lib/liblua.a")  # Adjust if necessary
+    set(LUALIB_LIBRARIES "/home/dulguun/cfs/buildroot/output/host/lib/liblua.a")
   else()
     # For native builds (non-cross-compilation), find Lua using system packages
     set(EDSLIB_LUA_SEARCH_VERSION lua-5.3 lua5.3 lua-5.2 lua5.2 lua-5.1 lua5.1 lua>=5.1)
