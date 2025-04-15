@@ -28,6 +28,8 @@ if(NOT LUALIB_FOUND)
   set(LUALIB_INCLUDE_DIRS "/home/dulguun/cfs/buildroot/output/host/include")
   set(LUALIB_LIBRARIES "/home/dulguun/cfs/buildroot/output/host/lib")
   message(STATUS "Using Lua from host: ${LUALIB_INCLUDE_DIRS}, ${LUALIB_LIBRARIES}")
+
+  include_directories(${LUALIB_INCLUDE_DIRS})
   
   # By default, try to find any 5.x version if no version specified...
   #  This simplifies building as a simple local library.
