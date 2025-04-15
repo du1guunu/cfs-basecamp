@@ -24,6 +24,11 @@ project(EDSLIB_LUABINDINGS C)
 # This library depends on a Lua library on the system
 if(NOT LUALIB_FOUND)
 
+  # Manually set the Lua include and library directories if they are not found
+  set(LUALIB_INCLUDE_DIRS "/home/dulguun/cfs/buildroot/output/host/include")
+  set(LUALIB_LIBRARIES "/home/dulguun/cfs/buildroot/output/host/lib")
+  message(STATUS "Using Lua from host: ${LUALIB_INCLUDE_DIRS}, ${LUALIB_LIBRARIES}")
+  
   # By default, try to find any 5.x version if no version specified...
   #  This simplifies building as a simple local library.
 
@@ -45,13 +50,6 @@ if(NOT LUALIB_FOUND)
   if (EDSLIB_LUA_SEARCH_VERSION)
     find_edslib_dependency(LUALIB lua.h ${EDSLIB_LUA_SEARCH_VERSION})
   endif(EDSLIB_LUA_SEARCH_VERSION)
-
-  # If Lua not found in the system, set manually for cross-compiling
-  if (NOT LUALIB_FOUND)
-    set(LUALIB_INCLUDE_DIRS "/home/dulguun/cfs/buildroot/output/host/include")
-    set(LUALIB_LIBRARIES "/home/dulguun/cfs/buildroot/output/host/lib")
-    message(STATUS "Using Lua from host: ${LUALIB_INCLUDE_DIRS}, ${LUALIB_LIBRARIES}")
-  endif()
 
 endif(NOT LUALIB_FOUND)
 
