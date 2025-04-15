@@ -12,6 +12,12 @@ SET(CMAKE_SYSTEM_PROCESSOR      arm)
 SET(CMAKE_C_COMPILER            "/home/dulguun/cfs/buildroot/output/host/bin/arm-buildroot-linux-gnueabihf-gcc")
 SET(CMAKE_CXX_COMPILER          "/home/dulguun/cfs/buildroot/output/host/bin/arm-buildroot-linux-gnueabihf-g++")
 
+# Override for EDS tool (force using host's x86 toolchain)
+if(NOT TARGET_EDS_TOOL)
+    SET(CMAKE_C_COMPILER            "/usr/bin/gcc")
+    SET(CMAKE_CXX_COMPILER          "/usr/bin/g++")
+endif()
+
 # Configure the find commands
 SET(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM   NEVER)
 SET(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY   NEVER)
